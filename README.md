@@ -1,3 +1,5 @@
+![image](https://github.com/skmotamarri2000/Tic-Tac-Toe/assets/144952861/f731494d-bce3-4a12-b027-bee4ebd44411)
+
 # Tic-Tac-Toe Game using React
 
 This project is a simple Tic-Tac-Toe game built using React. It allows two players to take turns marking spaces on a 3x3 grid until one player wins or the game ends in a draw.
@@ -17,4 +19,5 @@ Squares change color to indicate which player has made a move.
 # Responsive Design: 
 The game is designed to be playable on various screen sizes.
 
-# Player 1: X and Player 2: O. 
+![image](https://github.com/skmotamarri2000/Tic-Tac-Toe/assets/144952861/5dde248f-4068-4d96-a88e-930b2dc31fda)
+
