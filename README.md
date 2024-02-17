@@ -21,3 +21,4 @@ The game is designed to be playable on various screen sizes.
 
 ![image](https://github.com/skmotamarri2000/Tic-Tac-Toe/assets/144952861/5dde248f-4068-4d96-a88e-930b2dc31fda)
 
+I hosted this react application on AWS Amplify. Link to the web site is - https://main.d3d16a8q8vrhh9.amplifyapp.com/
