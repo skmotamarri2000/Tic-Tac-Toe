@@ -15,17 +15,18 @@ function Square({ value, onSquareClick, color }) {
 
 export default function Board() {
   const [xIsNext, setXIsNext] = useState(true);
-  const [squares, setSquares] = useState(Array(9).fill(null));
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-  const [color, setColor] = useState(Array(9).fill("white"));
+  const [size, setSize] = useState(3); // Setting the default size of the board as 3 x 3
+  const [squares, setSquares] = useState(Array(size * size).fill(null));
+  const [color, setColor] = useState(Array(size * size).fill("white"));
+  const [inputSize, setInputSize] = useState("");
 
   function handleClick(i) {
     if (calculateWinner(squares) || squares[i] || gameOver) {
       return;
     }
     const nextSquares = squares.slice();
-
     nextSquares[i] = xIsNext ? "X" : "O";
     setSquares(nextSquares);
 
@@ -41,11 +42,21 @@ export default function Board() {
   }
 
   function resetGame() {
-    setSquares(Array(9).fill(null));
+    setSquares(Array(size * size).fill(null));
     setGameStarted(false);
     setGameOver(false);
     setXIsNext(true);
-    setColor(Array(9).fill("white"));
+    setColor(Array(size * size).fill("white"));
+  }
+
+  function handleSizeSubmit(event) {
+    event.preventDefault();
+    if (inputSize >= 3) {
+      setSize(parseInt(inputSize));
+      setSquares(Array(parseInt(inputSize) * parseInt(inputSize)).fill(null));
+      setColor(Array(parseInt(inputSize) * parseInt(inputSize)).fill("white"));
+      setGameStarted(true);
+    }
   }
 
   const winner = calculateWinner(squares);
@@ -66,33 +77,44 @@ export default function Board() {
 
   return (
     <div className="container">
-      {gameStarted && status}
-      {gameStarted && (
-        <>
-          <div className="board">
-            {squares.map((value, index) => (
-              <Square
-                key={index}
-                value={value}
-                onSquareClick={() => handleClick(index)}
-                color={color[index]}
-              />
-            ))}
-          </div>
-        </>
-      )}
       {!gameStarted && (
         <div>
           <h1 className="title">Welcome to Tic-Tac-Toe Game!</h1>
-
-          <div className="start-button-container">
-            <button
-              className="start-button"
-              onClick={() => setGameStarted(true)}
-            >
+          <form onSubmit={handleSizeSubmit} className="input-container">
+            <label htmlFor="boardSize" className="input-label">
+              Enter Board Size (min 3):
+            </label>
+            <input
+              type="number"
+              id="boardSize"
+              name="boardSize"
+              min="3"
+              value={inputSize}
+              onChange={(e) => setInputSize(e.target.value)}
+              className="input-field"
+            />
+            <button type="submit" className="submit-button">
               Start
             </button>
-          </div>
+          </form>
+        </div>
+      )}
+
+      {gameStarted && status}
+
+      {gameStarted && (
+        <div
+          className="board"
+          style={{ gridTemplateColumns: `repeat(${size}, 80px)` }}
+        >
+          {squares.map((value, index) => (
+            <Square
+              key={index}
+              value={value}
+              onSquareClick={() => handleClick(index)}
+              color={color[index]}
+            />
+          ))}
         </div>
       )}
 
@@ -108,21 +130,29 @@ export default function Board() {
 }
 
 function calculateWinner(squares) {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+  const size = Math.sqrt(squares.length);
+  const lines = [];
+
+  for (let i = 0; i < size; i++) {
+    lines.push(Array.from({ length: size }, (_, index) => i * size + index));
+  }
+
+  for (let i = 0; i < size; i++) {
+    lines.push(Array.from({ length: size }, (_, index) => i + index * size));
+  }
+
+  lines.push(Array.from({ length: size }, (_, index) => index * (size + 1)));
+  lines.push(
+    Array.from({ length: size }, (_, index) => (index + 1) * (size - 1))
+  );
+
+  for (let line of lines) {
+    const lineSquares = line.map((index) => squares[index]);
+    const firstSquare = lineSquares[0];
+    if (firstSquare && lineSquares.every((square) => square === firstSquare)) {
+      return firstSquare;
     }
   }
+
   return null;
 }
