@@ -19,9 +19,52 @@ body {
   color: goldenrod;
 }
 
+.input-container {
+  margin-top: 20px;
+}
+
+.input-label {
+  font-size: 24px;
+  color: white;
+  margin-bottom: 10px;
+  display: block; /* Ensures the label takes up full width */
+}
+
+.input-field {
+  padding: 10px;
+  font-size: 18px;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  background-color: transparent;
+  color: white;
+  margin-bottom: 10px;
+  width: 200px; /* Set a fixed width to prevent button and input from merging */
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: goldenrod;
+}
+
+.submit-button {
+  padding: 10px 20px;
+  font-size: 20px;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 10px; /* Add margin at the bottom */
+  margin-left: 10px; /* Add margin to the left */
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+}
+
 .board {
   display: grid;
-  grid-template-columns: repeat(3, 80px);
   grid-gap: 10px;
   justify-content: center;
 }
@@ -48,6 +91,7 @@ body {
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+  margin-left: 10px; /* Add margin to the left */
 }
 
 .start-button:hover {
